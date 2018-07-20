@@ -1,6 +1,6 @@
 ***Firewalls (Bash, 2015)***
 
-port knocking authentication sample
+Some intro firewall exercises (iptables)
 
 ***Hash Collision (Python, 2018)***
 
