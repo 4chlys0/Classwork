@@ -1,17 +1,21 @@
+#!/bin/bash
+
 #create a port knocking system with IPTable commands that will open up port 22 (SSH) when the remote host knocks on ports 2222,3333,4444 within 30 seconds
 #December 2015
 
-//Gate 1 -> Allow tcp connection to port 2222, deny the rest (remove from gate 1)
+#Gate 1 -> Allow tcp connection to port 2222, deny the rest (remove from gate 1)
 sudo iptables -A GATE1 -p tcp --dport 2222 -m recent --name AUTH1 --set -j DROP
 sudo iptables -A GATE1 -j DROP
 
-//Gate 2 -> Clear the previous flags; Allow tcp connection to port 3333, deny the rest (allow gate1 to check if it’s the correct start of a sequence)
+#Gate 2 -> Clear the previous flags; Allow tcp connection to port 3333, deny the rest (allow gate1 to check if it’s the correct start of a sequence)
 sudo iptables -A GATE2 -m recent --name AUTH1 --remove
 sudo iptables -A GATE2 -p tcp --dport 3333 -m recent --name AUTH2 --set -j DROP
 sudo iptables -A GATE2 -j GATE1
 
-//Gate 3 -> Same as before
+#Gate 3 -> Same as before
 sudo iptables -A GATE3 -m recent --name AUTH1 --remove
 sudo iptables -A GATE3 -p tcp --dport 4444 -m recent --name AUTH3 --set -j DROP
 sudo iptables -A GATE3 -j GATE1
 
+#specify 30 second timeout (where rcheck specifies packet source address is in the allowed list)
+sudo iptables -A KNOCKING -m recent --rcheck --seconds 30 --name AUTH3 -j PASSED
