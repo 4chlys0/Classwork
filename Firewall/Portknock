@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #create a port knocking system with IPTable commands that will open up port 22 (SSH) when the remote host knocks on ports 2222,3333,4444 within 30 seconds
-#December 2015
 
 #Gate 1 -> Allow tcp connection to port 2222, deny the rest (remove from gate 1)
 sudo iptables -A GATE1 -p tcp --dport 2222 -m recent --name AUTH1 --set -j DROP

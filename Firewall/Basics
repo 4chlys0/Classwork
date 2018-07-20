@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#A few of the intro exercises
+
+#Describe what the following rules do:
+iptables -A INPUT -i lo -p all -j ACCEPT
+#Appends a rule to the end of the INPUT chain to accept all packets from the “lo” (loopback) interface using any connection protocol.
+iptables -A INPUT -p all -s localhost -i eth0 -j DROP
+#Appends a rule to the end of the INPUT chain to drop packets originating from this computer of any protocol via the lan cable interface.
+iptables -A INPUT -s 0/0 -i eth0 -d 192.168.1.1 -p TCP -j ACCEPT
+#Append a rule to the end of the INPUT chain to accept packets originating from any valid IP address using the lan cable interface and TCP protocol, and having a destination of 192.168.1.1
+iptables -A FORWARD -s 0/0 -i eth0 -d 192.168.1.1 -o eth1 -p TCP \ --sport 1024:65535 --dport 80 -j ACCEPT
+#Append a rule to the end of the INPUT chain to accept packets originating from any valid IP address and ports 1024-65535 using the lan cable interface and TCP protocol, with the destination of 192.168.1.1 and port 80.
+
+
+#Create rules that will block and HTTP and HTTPS browsing from the virtual machine
+#Where vmnet8 indicates a NATted VM
+iptables -A INPUT -i vmnet8 --dport 80 -j REJECT
+iptables -A INPUT -i vmnet8 --dport 443 -j REJECT
+#Create a rule that will limit ICMP(Ping) traffic to 5 packets per second
+iptables -A INPUT -p icmp -m --limit 5/s -j DROP

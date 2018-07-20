@@ -1,8 +1,8 @@
-***Firewalls***
+***Firewalls (Bash, 2015)***
 
 port knocking authentication sample
 
-***Network Security Assignment- Hash Collision***
+***Hash Collision (Python, 2018)***
 
 Simple MD5 Collision
 
